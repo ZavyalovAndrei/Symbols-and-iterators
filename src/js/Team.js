@@ -1,15 +1,29 @@
 export default class Team {
   constructor() {
-    this.currentTeam = {};
+    this.currentTeam = new Set();
   }
 
   makeTeam(...characters) {
-    let index = 0;
-    characters.forEach((item) => {
-      this.currentTeam[index] = item;
-      index++;
-    });
-    this.currentTeam.length = index;
-    this.currentTeam[Symbol.iterator] = [][Symbol.iterator];
+    characters.forEach((item) => this.currentTeam.add(item));
+  }
+
+  [Symbol.iterator]() {
+    let current = 0;
+    const members = [...this.currentTeam];
+    let last = members.length;
+    return {
+      next() {
+        if (current >= last) {
+          return {
+            done: true,
+            value: undefined,
+          };
+        }
+        return {
+          done: false,
+          value: members[current++],
+        };
+      },
+    };
   }
 }

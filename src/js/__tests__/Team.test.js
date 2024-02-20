@@ -10,7 +10,7 @@ const daemon = new Daemon("Марина");
 const undead = new Undead("Вероника");
 const bowerman = new Bowerman("Светлана");
 team.makeTeam(magician, daemon, undead, bowerman);
-const iterator = team.currentTeam[Symbol.iterator]();
+const iterator = team[Symbol.iterator]();
 
 
 test.each([
@@ -21,11 +21,11 @@ test.each([
 ])("should return caracter %s and done to be false", (_, expected) => {
   const result = iterator.next();
   expect(result.value).toEqual(expected);
-  expect(result.done).toBe(false);
+  expect(result.done).toBeFalsy();
 });
 
 test("should return undefined when done is true", () => {
   const result = iterator.next();
-  expect(result.value).toEqual(undefined);
-  expect(result.done).toBe(true);
+  expect(result.value).toBeUndefined()
+  expect(result.done).toBeTruthy();
 });
